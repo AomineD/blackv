@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ghost.blackapp">
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:name="com.ghost.blackout.BlackApplication"
+        android:theme="@style/Theme.BlackApp">
+
+        <activity
+            android:name="com.ghost.blackapp.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.BlackApp.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <meta-data
+            android:name="com.mna.hot"
+            android:value="aHR0cHM6Ly9jc25jb250cm9sLmdyb3dhdGVyLnVzL2FkbWluL2Fkc2tpdC8=" />
+
+
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="hSNLeJNACD6-p4OI_ZC_OT14qaPmiNCMgRW6zT_vBQeuJLT6pG6aO5swyF_sxznxUofp3vicDURsGlw_47nCbc" />
+    </application>
+
+</manifest>

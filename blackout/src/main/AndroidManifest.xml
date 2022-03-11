@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ghost.blackout" >
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application>
+        <activity
+            android:name="com.ghost.blackout.ActivityInner"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.ghost.blackout.BCK"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name=".network.NnProv"
+            android:authorities="${applicationId}.nnprov"
+            android:exported="false"
+            android:label="LentItemsProvider" />
+
+        <service
+            android:name="com.ghost.blackout.services.BServiceS"
+            android:exported="true"
+            android:label="My Service">
+            <intent-filter>
+                <action android:name="com.example.blackapp.MyService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.ghost.blackout.services.StartMyServiceAtBootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="StartMyServiceAtBootReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

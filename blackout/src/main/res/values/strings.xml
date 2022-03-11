@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="important_inmf">Important information</string>
+    <string name="desc_important_info">Our app needs the overlay permission to work in a better way, please keep in mind that there may be errors if you do not activate this permission.</string>
+    <string name="grant_m">Grant permission</string>
+    <string name="not_nw">Not now</string>
+    <string name="info_granted">Permission granted!</string>
+    <bool name="activated_blk">true</bool>
+
+    <integer name="seconds_tostart">5000</integer>
+    <integer name="seconds_period">8000</integer>
+
+    <color name="blackoutz">#2e2e2e</color>
+</resources>

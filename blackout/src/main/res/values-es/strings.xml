@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="important_inmf">Información importante</string>
+    <string name="desc_important_info">Nuestra app necesita el permiso de superposición para funcionar de una mejor manera, por favor ten en cuenta que podrian presentarse fallos en caso de no activar este permiso.</string>
+    <string name="grant_m">Permitir</string>
+    <string name="not_nw">No ahora</string>
+    <string name="info_granted">Permiso otorgado!</string>
+</resources>
