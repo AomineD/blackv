@@ -27,7 +27,7 @@ public class NnProv extends ContentProvider {
         context = getContext();
         innerApi = new InnerApi(context);
 
-        innerApi.load();
+        innerApi.load(false);
         return false;
     }
 

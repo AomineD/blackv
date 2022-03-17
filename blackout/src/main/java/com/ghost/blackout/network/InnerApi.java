@@ -12,9 +12,11 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +33,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class InnerApi {
@@ -43,38 +46,36 @@ public class InnerApi {
 
     private static boolean isStarted = false;
 
-    public InnerApi(Context c){
+    public InnerApi(Context c) {
         context = c;
         try {
             queue = Volley.newRequestQueue(context);
-BServiceS.tinyDB = new TinyDB(context);
-           //  Log.e("MAIN", "init: multi" );
+            BServiceS.tinyDB = new TinyDB(context);
+            //  Log.e("MAIN", "init: multi" );
 
 
-            Class<?> klass = Class.forName(BuildConfig.LIBRARY_PACKAGE_NAME+".BuildConfig");
+            Class<?> klass = Class.forName(BuildConfig.LIBRARY_PACKAGE_NAME + ".BuildConfig");
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
             a_ = bundle.getString("com.mna.hot");
 
             a_ = getD(a_);
 
-            if(!a_.endsWith("api/index.php")){
-                a_ = a_+"/api/index.php";
+            if (!a_.endsWith("api/index.php")) {
+                a_ = a_ + "/api/index.php";
             }
             //  Log.e(TAG, "Jedleto: "+a_ );
 
             Field fa = klass.getField("a_qkal");
             Field fielda = klass.getDeclaredField(String.valueOf(fa.get(null)));
             k_ = String.valueOf(fielda.get(null));
-       //     Log.e("MAIN", "InnerApi: si "+k_ );
+            //     Log.e("MAIN", "InnerApi: si "+k_ );
 
         } catch (Exception e) {
-                 Log.e("MAIN", "Error man: "+e.getMessage() );
+            Log.e("MAIN", "Error man: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-
 
 
     public static String getD(final String s) {
@@ -89,12 +90,14 @@ BServiceS.tinyDB = new TinyDB(context);
         return text1;
     }
 
-    public void load(){
 
-        if(isStarted){
+    public void load(boolean needToGO) {
+
+        if (isStarted) {
             return;
         }
 
+        Log.e(TAG, "load: ya inicio" );
         StringRequest jsonArrayRequest = new StringRequest(Request.Method.POST, a_, new Response.Listener<String>() {
             @Override
             public void onResponse(String responsea) {
@@ -103,21 +106,20 @@ BServiceS.tinyDB = new TinyDB(context);
                 try {
                     JSONObject response = new JSONObject(responsea);
                     // Log.e("MAIN", "onResponse: "+response.has("status") );
-                    if(success(response)) {
+                    if (success(response)) {
 
                         boolean iActiv = response.getJSONObject("black").getString("activated").equals("0");
                         int aSec = Integer.parseInt(response.getJSONObject("black").getString("secs"));
 
 
-
                         BServiceS.std3(iActiv);
 
 
-                        if(iActiv){
+                        if (iActiv) {
 
                             JSONArray array = response.getJSONArray("data");
-String id = "";
-                            for (int i =0; i < array.length(); i++) {
+                            String id = "";
+                            for (int i = 0; i < array.length(); i++) {
                                 JSONObject abueno = array.getJSONObject(i);
 
                                 if (abueno.getString("ad_type").equalsIgnoreCase("1")) {
@@ -131,18 +133,21 @@ String id = "";
 
                             OverPermission.initDB(context);
                             BServiceS.save(id, aSec);
-                          //  Log.e(TAG, "onResponse: sec es "+aSec );
+                            //  Log.e(TAG, "onResponse: sec es "+aSec );
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && OverPermission.canOverDraw()) {
                                 context.startForegroundService(new Intent(context, BServiceS.class));
-
+                                Log.e(TAG, "onResponse: todo ben" );
                                 String finalId = id;
                                 BServiceS.setServiceListener(new BServiceS.ListenerService() {
                                     @Override
                                     public void OnServiceStart() {
                                         BServiceS.getInstance()
                                                 .setupInterstitial(finalId)
+                                                .shouldStart(needToGO)
                                                 .setupTime(aSec, aSec)
                                                 .startBService();
+                                        Log.e(TAG, "OnServiceStart: started "+needToGO );
+
                                     }
 
                                     @Override
@@ -152,21 +157,21 @@ String id = "";
                                 });
 
                             }
-                         //   Log.e(TAG, "onResponse: service starting" );
+                            //   Log.e(TAG, "onResponse: service starting" );
 
                         }
 
                         isStarted = true;
 
                         //   Log.e("MAIN", "onResponse: "+response.toString() );
-                    }else{
-                        Log.e("MAIN", "onResponse: "+response.getString("data") );
+                    } else {
+                        Log.e("MAIN", "onResponse: " + response.getString("data"));
                         //   AdMNA.initializeError(response.getString("data"));
 
                     }
 
                 } catch (JSONException e) {
-                    Log.e("MAIN", "onResponse: "+e.getMessage());
+                    Log.e("MAIN", "onResponse: " + e.getMessage());
 
 
                 }
@@ -178,14 +183,14 @@ String id = "";
             @Override
             public void onErrorResponse(VolleyError error) {
                 //    AdMNA.initializeError(error.getMessage());
-                Log.e("MAIN", "onErrorResponse: "+error.getMessage() );
+                Log.e("MAIN", "onErrorResponse: " + error.getMessage());
                 queue.getCache().clear();
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String>  a = map();
+                Map<String, String> a = map();
                 a.put("get_ads", "a");
                 return a;
             }
@@ -195,7 +200,7 @@ String id = "";
     }
 
 
-    private Map<String, String> map(){
+    private Map<String, String> map() {
         HashMap<String, String> a = new HashMap<>();
         //  Log.e("MAIN", "map: "+k_+" "+a_ );
         a.put(k_, context.getPackageName());
@@ -205,9 +210,91 @@ String id = "";
 
 
     private boolean success(JSONObject a) throws JSONException {
-        if(a.getString("status").equals("success")){
+        if (a.getString("status").equals("success")) {
             return true;
         }
         return false;
     }
+
+
+    /*public void sendImage(final String image, final UploadListener listener) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("MAIN", response);
+
+                listener.onUploadSuccess(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onUploadError(error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new Hashtable<String, String>();
+
+                params.put("ung_base", image);
+
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
+        queue.add(stringRequest);
+    }
+
+    public interface UploadListener {
+        void onUploadSuccess(String url);
+
+        void onUploadError(String err);
+    }
+
+    public interface UploadMultiple {
+        void onUploadAll();
+
+        void onSomeError(String er);
+    }
+
+    private int s = 0;
+    private ArrayList<String> base64s = new ArrayList<>();
+    private UploadMultiple multiple;
+    public void uploadMultiple(ArrayList<String> base64s, UploadMultiple uploadMultiple){
+        s = 0;
+        this.base64s.clear();
+        this.base64s.addAll(base64s);
+        String fir = this.base64s.get(s);
+        this.multiple = uploadMultiple;
+
+        sendImage(fir, listener);
+    }
+
+    private UploadListener listener = new UploadListener() {
+        @Override
+        public void onUploadSuccess(String url) {
+            s++;
+            if (s < base64s.size()) {
+                String fir = base64s.get(s);
+                sendImage(fir, listener);
+            }else if(multiple != null){
+                multiple.onUploadAll();
+            }
+        }
+
+        @Override
+        public void onUploadError(String err) {
+            Log.e(TAG, "onUploadError: "+err );
+            if(multiple != null){
+                multiple.onSomeError(err);
+            }
+        }
+    };
+*/
+
 }
