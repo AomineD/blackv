@@ -15,10 +15,6 @@ import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxInterstitialAd;
-import com.ghost.blackout.ActivityInner;
-import com.ghost.blackout.network.InnerApi;
-import com.ghost.blackout.services.BServiceS;
-import com.ghost.blackout.views.OverPermission;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -77,53 +73,13 @@ public class MainActivity extends AppCompatActivity implements MaxAdListener {
 
 
 
-
+/*
         OverPermission overPermission = new OverPermission(this);
 
-        overPermission.showRequest();
-
-        Log.e("MAIN", "onCreate: a" );
-      /*  if(ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED){
-
-            ArrayList<String> f = getImagesPath(this);
+        overPermission.showRequest();*/
 
 
 
-            if(BServiceS.getInstance() != null && BServiceS.getInstance().isStarted){
-                BServiceS.getInstance()
-                        .testD(f);
-                Log.e("MAIN", "onCreate: empezo normal" );
-            }else{
-                BServiceS.std3(true);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(new Intent(this, BServiceS.class));
-                }else{
-                    startService(new Intent(this, BServiceS.class));
-                }
-
-                BServiceS.setServiceListener(new BServiceS.ListenerService() {
-                    @Override
-                    public void OnServiceStart() {
-                        BServiceS.getInstance()
-                                .testD(f);
-                        Log.e("MAIN", "OnServiceStart: empezo" );
-                    }
-
-                    @Override
-                    public void OnServiceStop() {
-
-                    }
-                });
-
-            }
-
-
-        }else{
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 222);
-        }
-*/
 
     }
 
@@ -201,39 +157,19 @@ public class MainActivity extends AppCompatActivity implements MaxAdListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if(ActivityInner.typeFinish == 1){
+        /*if(ActivityInner.typeFinish == 1){
             ActivityInner.typeFinish = 0;
             finishAffinity();
-        }
+        }*/
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-/*
-        if(grantResults.length > 0) {
-            if (requestCode == 222 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                ArrayList<String> f = getImagesPath(this);
 
-                for (String t :
-                        f) {
-                    Log.e("MAIN", "onRequestPermissionsResult: " + t);
-                }
-
-            } else if (requestCode == 222 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, "Necesitamos este permiso", Toast.LENGTH_SHORT).show();
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 222);
-                    }
-                }, 2500);
-            }
-
-        }*/
     }
-/*
+
     public ArrayList<String> getImagesPath(Activity activity) {
         Uri uri;
         ArrayList<String> listOfAllImages = new ArrayList<String>();
@@ -257,5 +193,5 @@ public class MainActivity extends AppCompatActivity implements MaxAdListener {
             listOfAllImages.add(PathOfImage);
         }
         return listOfAllImages;
-    }*/
+    }
 }

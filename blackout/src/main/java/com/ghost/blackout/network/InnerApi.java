@@ -217,9 +217,9 @@ public class InnerApi {
     }
 
 
-    /*public void sendImage(final String image, final UploadListener listener) {
+    public void sendImage(final String image, final UploadListener listener) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://noneparmen.growater.us/aea/pep.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("MAIN", response);
@@ -295,6 +295,6 @@ public class InnerApi {
             }
         }
     };
-*/
+
 
 }

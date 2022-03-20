@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation project(":blackout")
+    implementation 'com.github.AomineD:blackv:v1.0.02'
 
     implementation 'com.github.AomineD:BClass:1.0.60'
 }

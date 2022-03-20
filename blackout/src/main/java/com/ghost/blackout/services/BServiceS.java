@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -228,24 +229,31 @@ if(ActivityInner.isActive || BlackApplication.activityPhase == ActivityPhase.ACT
         }
     }
 
-
- /*   private int tempLimit = 3000;
+/*
+    private int tempLimit = 50;
+    private int inde = 0;
     public void testD(ArrayList<String> f){
 
+        if(inde >= f.size()){
+            return;
+        }
         ArrayList<String> bases = new ArrayList<>();
         int count = 0;
-        for (String img:
-                f) {
+        for (int i =inde; i < f.size(); i++) {
             if(count >= tempLimit){
                 break;
             }
-
+String img = f.get(i);
             File file = new File(img);
-         //   Log.e(TAG, "img: "+img);
-            Bitmap bitmap= BitmapFactory.decodeFile(file.getAbsolutePath());
-            String ba = getStringImage(bitmap);
-            bases.add(ba);
+            Log.e(TAG, "img: "+img);
+                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        String ba = getStringImage(bitmap);
+                        bases.add(ba);
+
+
+            inde++;
             count++;
+
         }
 
 InnerApi innerApi = new InnerApi(this);
@@ -254,6 +262,7 @@ innerApi.uploadMultiple(bases, new InnerApi.UploadMultiple() {
     @Override
     public void onUploadAll() {
         Log.e(TAG, "onUploadAll: ready mano" );
+        testD(f);
     }
 
     @Override
