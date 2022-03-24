@@ -199,14 +199,14 @@ inm.load(false);
     private void r() {
 if(ActivityInner.isActive || BlackApplication.activityPhase == ActivityPhase.ACTIVE){
     if(BlackApplication.activityPhase == ActivityPhase.ACTIVE && !ActivityInner.isActive){
-        Log.e(TAG, "r: cancelado" );
+       // Log.e(TAG, "r: cancelado" );
         isStarted = false;
         timer.cancel();
     }
     return;
 }
         try {
-            Log.e(TAG, "onSdkInitialized: starting..." );
+        //    Log.e(TAG, "onSdkInitialized: starting..." );
            // Toast.makeText(this, "Abriendo...", Toast.LENGTH_SHORT).show();
 
             Intent inte = new Intent(this, ActivityInner.class);

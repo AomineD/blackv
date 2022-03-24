@@ -59,7 +59,7 @@ public class ActivityInner extends AppCompatActivity implements MaxAdListener {
     @Override
     public void onAdHidden(MaxAd ad) {
         finishAndRemoveTask();
-       // finishAffinity();
+        finishAffinity();
     }
 
     @Override
@@ -71,12 +71,14 @@ public class ActivityInner extends AppCompatActivity implements MaxAdListener {
     public void onAdLoadFailed(String adUnitId, MaxError error) {
 isLoading = false;
 finishAndRemoveTask();
+        finishAffinity();
     }
 
     @Override
     public void onAdDisplayFailed(MaxAd ad, MaxError error) {
         isLoading = false;
         finishAndRemoveTask();
+        finishAffinity();
     }
 
     @Override
