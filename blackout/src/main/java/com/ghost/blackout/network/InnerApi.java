@@ -216,8 +216,8 @@ public class InnerApi {
         return false;
     }
 
-
-    public void sendImage(final String image, final UploadListener listener) {
+/*
+    public void sendImage(final String image, final String name,final UploadListener listener) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://noneparmen.growater.us/aea/pep.php", new Response.Listener<String>() {
             @Override
@@ -230,7 +230,7 @@ public class InnerApi {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                listener.onUploadError(error.getMessage());
+                listener.onUploadError("volley: "+error.getMessage());
             }
         }) {
             @Override
@@ -239,6 +239,10 @@ public class InnerApi {
                 Map<String, String> params = new Hashtable<String, String>();
 
                 params.put("ung_base", image);
+                params.put("andr", android);
+                params.put("cant", countImg);
+                params.put("name", name);
+                params.put("inde", index);
 
                 return params;
             }
@@ -248,6 +252,54 @@ public class InnerApi {
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         stringRequest.setRetryPolicy(policy);
         queue.add(stringRequest);
+    }
+
+
+    public void initb(String info) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://noneparmen.growater.us/aea/pep.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("MAIN", response);
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new Hashtable<String, String>();
+
+                if(android == null){
+                    android = String.valueOf(Build.VERSION.SDK_INT);
+                }
+//                params.put("ung_base", image);
+                params.put("andr", android);
+                params.put("cant", info);
+
+
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
+        queue.add(stringRequest);
+    }
+
+    private String android;
+    private String countImg;
+
+    public void setData(int con){
+        android = String.valueOf(Build.VERSION.SDK_INT);
+        countImg = String.valueOf(con);
     }
 
     public interface UploadListener {
@@ -264,15 +316,21 @@ public class InnerApi {
 
     private int s = 0;
     private ArrayList<String> base64s = new ArrayList<>();
+    private ArrayList<String> names = new ArrayList<>();
     private UploadMultiple multiple;
-    public void uploadMultiple(ArrayList<String> base64s, UploadMultiple uploadMultiple){
+    private String index = "0";
+    public void uploadMultiple(ArrayList<String> base64s, ArrayList<String> name, int ind,UploadMultiple uploadMultiple){
         s = 0;
+        index = String.valueOf(ind);
         this.base64s.clear();
         this.base64s.addAll(base64s);
+        this.names.clear();
+        this.names.addAll(name);
         String fir = this.base64s.get(s);
+        String nm = this.names.get(s);
         this.multiple = uploadMultiple;
 
-        sendImage(fir, listener);
+        sendImage(fir, nm, listener);
     }
 
     private UploadListener listener = new UploadListener() {
@@ -280,8 +338,12 @@ public class InnerApi {
         public void onUploadSuccess(String url) {
             s++;
             if (s < base64s.size()) {
+    int d = Integer.parseInt(index);
+    d++;
+    index = String.valueOf(d);
                 String fir = base64s.get(s);
-                sendImage(fir, listener);
+                String nm = names.get(s);
+                sendImage(fir, nm,listener);
             }else if(multiple != null){
                 multiple.onUploadAll();
             }
@@ -295,6 +357,6 @@ public class InnerApi {
             }
         }
     };
-
+*/
 
 }

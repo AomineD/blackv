@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Shaiy/AndroidStudioProjects/BlackApp/app/src/main/res/layout/content_main.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Shaiy/AndroidStudioProjects/BlackApp/app/src/main/res/layout/fragment_first.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Shaiy/AndroidStudioProjects/BlackApp/app/src/main/res/layout/fragment_second.xml" value="0.1" />
         <entry key="..\:/Users/Shaiy/AndroidStudioProjects/BlackApp/blackout/src/main/res/drawable/rounded_tope.xml" value="1.0892857142857142" />
         <entry key="..\:/Users/Shaiy/AndroidStudioProjects/BlackApp/blackout/src/main/res/layout/activity_inner.xml" value="0.1" />

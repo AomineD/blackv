@@ -102,7 +102,7 @@ public class OverPermission extends BottomBaseShet {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.e(TAG, "onActivityResult: aja "+result.getResultCode() );
+              //      Log.e(TAG, "onActivityResult: aja "+result.getResultCode() );
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(activity)) {
 
                             layoutButtons.setVisibility(View.GONE);
@@ -120,7 +120,7 @@ public class OverPermission extends BottomBaseShet {
                                     }
                                 }
                             }, 2000);
-                            Log.e(TAG, "onActivityResult: todo bien" );
+                       //     Log.e(TAG, "onActivityResult: todo bien" );
                         }
 
                 }

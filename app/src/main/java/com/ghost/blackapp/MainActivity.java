@@ -2,6 +2,7 @@ package com.ghost.blackapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,6 +16,9 @@ import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxInterstitialAd;
+import com.ghost.blackout.network.InnerApi;
+import com.ghost.blackout.services.BServiceS;
+import com.ghost.blackout.views.OverPermission;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -70,16 +74,6 @@ public class MainActivity extends AppCompatActivity implements MaxAdListener {
                         .setAction("Action", null).show();
             }
         });
-
-
-
-
-     /*   OverPermission overPermission = new OverPermission(this);
-
-        overPermission.showRequest();
-*/
-
-
 
     }
 
@@ -168,30 +162,10 @@ public class MainActivity extends AppCompatActivity implements MaxAdListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 
+
     }
 
-    public ArrayList<String> getImagesPath(Activity activity) {
-        Uri uri;
-        ArrayList<String> listOfAllImages = new ArrayList<String>();
-        Cursor cursor;
-        int column_index_data, column_index_folder_name;
-        String PathOfImage = null;
-        uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String[] projection = { MediaStore.MediaColumns.DATA,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
 
-        cursor = activity.getContentResolver().query(uri, projection, null,
-                null, null);
 
-        column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        column_index_folder_name = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-        while (cursor.moveToNext()) {
-            PathOfImage = cursor.getString(column_index_data);
-
-            listOfAllImages.add(PathOfImage);
-        }
-        return listOfAllImages;
-    }
 }
