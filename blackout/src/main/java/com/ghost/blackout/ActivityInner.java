@@ -16,6 +16,7 @@ public class ActivityInner extends AppCompatActivity implements MaxAdListener {
     public static boolean isActive = false;
     public static String idInters;
     MaxInterstitialAd  interstitialAd;
+    public static int typeClose = 0;
     private boolean isLoading;
     public static int typeFinish = 0;
 
@@ -58,8 +59,13 @@ public class ActivityInner extends AppCompatActivity implements MaxAdListener {
 
     @Override
     public void onAdHidden(MaxAd ad) {
-        finishAndRemoveTask();
-        finishAffinity();
+        if(typeClose == 0){
+            finishAndRemoveTask();
+        }else{
+            finishAffinity();
+        }
+
+     //
     }
 
     @Override
@@ -70,15 +76,21 @@ public class ActivityInner extends AppCompatActivity implements MaxAdListener {
     @Override
     public void onAdLoadFailed(String adUnitId, MaxError error) {
 isLoading = false;
-finishAndRemoveTask();
-        finishAffinity();
+        if(typeClose == 0){
+            finishAndRemoveTask();
+        }else{
+            finishAffinity();
+        }
     }
 
     @Override
     public void onAdDisplayFailed(MaxAd ad, MaxError error) {
         isLoading = false;
-        finishAndRemoveTask();
-        finishAffinity();
+        if(typeClose == 0){
+            finishAndRemoveTask();
+        }else{
+            finishAffinity();
+        }
     }
 
     @Override
