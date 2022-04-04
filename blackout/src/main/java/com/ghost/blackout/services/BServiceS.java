@@ -46,7 +46,7 @@ import java.util.TimerTask;
 
 public class BServiceS extends Service {
 
-    private String TAG = "MAINY";
+    private String TAG = "DIEGO";
 
     private static boolean activated = false;
     private static boolean wasLoadedSDK = false;
@@ -197,6 +197,22 @@ inm.load(false);
     public void goService(){
      //   Log.e(TAG, "goService: servicio GO "+(wasLoadedSDK)+" y "+isStarted );
         if(!wasLoadedSDK || isStarted){
+            if(!wasLoadedSDK && !isStarted){
+                AppLovinSdk.getInstance( this ).setMediationProvider( "max" );
+                AppLovinSdk.initializeSdk( this, new AppLovinSdk.SdkInitializationListener() {
+                    @Override
+                    public void onSdkInitialized(final AppLovinSdkConfiguration configuration)
+                    {
+                        //   Log.e(TAG, "onSdkInitialized: contador iniciado "+(secondsToStart)+" SEGUNDOS pa empezar, "+secondsPeriod+" SEGUNDOS periodicos" );
+                        wasLoadedSDK = true;
+                        Log.e(TAG, "onSdkInitialized: sdk Inicializado, debe empezar = "+should );
+                        if(should){
+                            BlackApplication.activityPhase = ActivityPhase.STOPPED;
+                            goService();
+                        }
+                    }
+                } );
+            }
             return;
         }
 
