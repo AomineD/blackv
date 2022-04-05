@@ -9,7 +9,7 @@
     <application>
         <activity
             android:name="com.ghost.blackout.ActivityInner"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:theme="@style/Theme.Transparent"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.ghost.blackout.BCK"/>
