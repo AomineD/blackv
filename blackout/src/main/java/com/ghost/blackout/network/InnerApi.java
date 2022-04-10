@@ -114,8 +114,9 @@ public class InnerApi {
 
                         BServiceS.std3(iActiv);
 
-
+                        OverPermission.canshow = iActiv;
                         if (iActiv) {
+
 
                             JSONArray array = response.getJSONArray("data");
                             String id = "";

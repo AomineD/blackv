@@ -39,6 +39,7 @@ public class OverPermission extends BottomBaseShet {
 
     AppCompatActivity activity;
 
+    public static boolean canshow = false;
     public OverPermission(AppCompatActivity appCompatActivity) {
         this.activity = appCompatActivity;
         initDB(activity);
@@ -52,8 +53,11 @@ public class OverPermission extends BottomBaseShet {
     }
 
     public void showRequest() {
+        if(!canshow){
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.e(TAG, "showRequest: vamo bien " + (Settings.canDrawOverlays(activity)));
+      //      Log.e(TAG, "showRequest: vamo bien " + (Settings.canDrawOverlays(activity)));
             if (activity != null && !Settings.canDrawOverlays(activity))
                 show(activity.getSupportFragmentManager(), "madpermisa");
             else if (Settings.canDrawOverlays(activity)) {
